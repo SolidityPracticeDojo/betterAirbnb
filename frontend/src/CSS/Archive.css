@@ -1,0 +1,44 @@
+
+.hotel-list-container {
+  width: 17%;
+  margin-right: auto;
+  padding: 16px;
+  border: 1px solid #e0e0e0; /* Add border in a light shade of grey */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-card {
+  display: flex;
+  align-items: center;
+}
+
+.hotel-details {
+  flex-grow: 1;
+}
+
+.delete-button {
+  margin-left: 10px;
+}
+
+
+.hotel-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.create-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.hotel-list-header h1 {
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+}

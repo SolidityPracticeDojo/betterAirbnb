@@ -1,0 +1,14 @@
+version: "3"
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: myproject
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: myuserpassword
+    volumes:
+      - _db:/var/lib/mysql
+
+volumes:
+  _db:

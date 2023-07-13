@@ -88,4 +88,38 @@ Will package it neatly with Docker and explain how you can run it, or test it in
     
     `npm start`
     
-    The React application will now be accessible at `http://localhost:3000`.
+    The React application will now be accessible at `http://localhost:3000`. Scroll down <0.0>
+
+## Wipe Database and Restart
+
+Here is custom information how to go about wiping the database in Docker and restarting the Django server.
+
+1. Close the running database instance with `CTRL+C`
+2. Close docker-compose:
+`docker-compose down`
+3. Find the database (optional, normally should be named in the docker-compose.yml):
+`docker volume ls` 
+4. Delete the database volume, or any other running instances if you like:
+`docker volume rm betterairbnb__db` or `docker volume prune` (to delete all volumes).
+5. You may now restart the docker instance with `docker-compose up db` or `docker-compose up` (for all instances).
+6. Careful, you now need to migrate your DJANGO databases back to the docker contained mySQL instance.
+`python manage.py migrate` and ` python manage.py makemigrations`. The database needs to be running for this.
+
+Now you're good to go.
+Keep in mind I edited the settings.py file in DJANGO and the docker-compose.yml to have a custom IP for the restart of the mySQL instance. Normally, when the volume gets wiped it chooses a random IP. This behavior has been modified here:
+```
+version: '3'
+services:
+  mysql:
+    image: mysql
+    networks:
+      mynetwork:
+        ipv4_address: 172.25.0.10
+
+networks:
+  mynetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16
+```

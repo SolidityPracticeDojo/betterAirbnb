@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './CSS/RoomList.css'; // Import the CSS file
+import './CSS/RoomList.css';
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
@@ -11,9 +11,14 @@ function RoomList() {
   const [newRoomNumber, setNewRoomNumber] = useState('');
   const [newCapacity, setNewCapacity] = useState('');
   const [newHotel, setNewHotel] = useState('');
-  const [hotelIDs, setHotelIDs] = useState([]);
+  const [hotels, setHotels] = useState([]);
 
   useEffect(() => {
+    fetchRooms();
+    fetchHotels();
+  }, []);
+
+  const fetchRooms = () => {
     axios.get('http://127.0.0.1:8000/rooms/')
       .then(response => {
         setRooms(response.data);
@@ -21,16 +26,17 @@ function RoomList() {
       .catch(error => {
         console.error('Error fetching rooms:', error);
       });
+  };
 
+  const fetchHotels = () => {
     axios.get('http://127.0.0.1:8000/hotels/')
       .then(response => {
-        const ids = response.data.map(hotel => hotel.id);
-        setHotelIDs(ids);
+        setHotels(response.data);
       })
       .catch(error => {
-        console.error('Error fetching hotel IDs:', error);
+        console.error('Error fetching hotels:', error);
       });
-  }, []);
+  };
 
   const handleDelete = (roomId) => {
     axios.delete(`http://127.0.0.1:8000/rooms/${roomId}/`)
@@ -62,6 +68,11 @@ function RoomList() {
       .catch(error => {
         console.error('Error updating room:', error);
       });
+  };
+
+  const handleCreateButton = () => {
+    fetchHotels(); // Fetch the updated list of hotels before showing the create popup
+    setShowCreatePopup(true);
   };
 
   const handleCreate = () => {
@@ -96,7 +107,7 @@ function RoomList() {
     <div className="room-list">
       <div className="room-list-header">
         <h1>Room List</h1>
-        <button className="create-button" onClick={() => setShowCreatePopup(true)}>+</button>
+        <button className="create-button" onClick={handleCreateButton}>+</button>
       </div>
       {rooms.map(room => (
         <div key={room.id} className="room-card">
@@ -156,8 +167,10 @@ function RoomList() {
               onChange={(e) => setNewHotel(e.target.value)}
             >
               <option value="">Select Hotel</option>
-              {hotelIDs.map(id => (
-                <option key={id} value={id}>{id}</option>
+              {hotels.map(hotel => (
+                <option key={hotel.id} value={hotel.id}>
+                  {hotel.name}
+                </option>
               ))}
             </select>
             <div className="buttons-container">

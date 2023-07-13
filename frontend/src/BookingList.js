@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './CSS/BookingList.css'; // Import the CSS file
+import './CSS/BookingList.css';
 
 function BookingList() {
   const [bookings, setBookings] = useState([]);
@@ -8,14 +8,19 @@ function BookingList() {
   const [editCheckInDate, setEditCheckInDate] = useState('');
   const [editCheckOutDate, setEditCheckOutDate] = useState('');
   const [showCreatePopup, setShowCreatePopup] = useState(false);
-  const [newCheckInDate, setNewCheckInDate] = useState('');
-  const [newCheckOutDate, setNewCheckOutDate] = useState('');
   const [newRoom, setNewRoom] = useState('');
   const [newCustomer, setNewCustomer] = useState('');
-  const [roomIDs, setRoomIDs] = useState([]);
-  const [customerIDs, setCustomerIDs] = useState([]);
-
+  const [rooms, setRooms] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const today = new Date();
+  
   useEffect(() => {
+    fetchBookings();
+    fetchRooms();
+    fetchCustomers();
+  }, []);
+
+  const fetchBookings = () => {
     axios.get('http://127.0.0.1:8000/bookings/')
       .then(response => {
         setBookings(response.data);
@@ -23,25 +28,27 @@ function BookingList() {
       .catch(error => {
         console.error('Error fetching bookings:', error);
       });
+  };
 
+  const fetchRooms = () => {
     axios.get('http://127.0.0.1:8000/rooms/')
       .then(response => {
-        const ids = response.data.map(room => room.id);
-        setRoomIDs(ids);
+        setRooms(response.data);
       })
       .catch(error => {
-        console.error('Error fetching room IDs:', error);
+        console.error('Error fetching rooms:', error);
       });
+  };
 
+  const fetchCustomers = () => {
     axios.get('http://127.0.0.1:8000/customers/')
       .then(response => {
-        const ids = response.data.map(customer => customer.id);
-        setCustomerIDs(ids);
+        setCustomers(response.data);
       })
       .catch(error => {
-        console.error('Error fetching customer IDs:', error);
+        console.error('Error fetching customers:', error);
       });
-  }, []);
+  };
 
   const handleDelete = (bookingId) => {
     axios.delete(`http://127.0.0.1:8000/bookings/${bookingId}/`)
@@ -75,9 +82,16 @@ function BookingList() {
       });
   };
 
+  const handleCreateButton = () => {
+    fetchRooms(); // Fetch the updated list of rooms before showing the create popup
+    fetchCustomers(); // Fetch the updated list of customers before showing the create popup
+    setShowCreatePopup(true);
+  };
+
   const handleCreate = () => {
-    const newBooking = {
-      check_in_date: newCheckInDate,
+      const checkInDate = newCheckInDate || formatDate(today);
+      const newBooking = {
+      check_in_date: checkInDate,
       check_out_date: newCheckOutDate,
       room: newRoom,
       customer: newCustomer,
@@ -130,11 +144,14 @@ function BookingList() {
     return `${year}-${month}-${day}`;
   };
 
+  const [newCheckInDate, setNewCheckInDate] = useState(formatDate(today));
+  const [newCheckOutDate, setNewCheckOutDate] = useState(formatDate(today));
+  
   return (
     <div className="booking-list">
       <div className="booking-list-header">
         <h1>Booking List</h1>
-        <button className="create-button" onClick={() => setShowCreatePopup(true)}>+</button>
+        <button className="create-button" onClick={handleCreateButton}>+</button>
       </div>
       {bookings.map(booking => (
         <div key={booking.id} className="booking-card">
@@ -194,8 +211,10 @@ function BookingList() {
               onChange={(e) => setNewRoom(e.target.value)}
             >
               <option value="">Select Room</option>
-              {roomIDs.map(id => (
-                <option key={id} value={id}>{id}</option>
+              {rooms.map(room => (
+                <option key={room.id} value={room.id}>
+                  {room.room_number}
+                </option>
               ))}
             </select>
             <select
@@ -203,8 +222,10 @@ function BookingList() {
               onChange={(e) => setNewCustomer(e.target.value)}
             >
               <option value="">Select Customer</option>
-              {customerIDs.map(id => (
-                <option key={id} value={id}>{id}</option>
+              {customers.map(customer => (
+                <option key={customer.id} value={customer.id}>
+                  {customer.first_name} : {customer.id}
+                </option>
               ))}
             </select>
             <div className="buttons-container">

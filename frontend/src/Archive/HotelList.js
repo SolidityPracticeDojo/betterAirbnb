@@ -93,6 +93,9 @@ function HotelList() {
       </div>
       {hotels.map(hotel => (
         <div key={hotel.id} className="hotel-card">
+          <div className="hotel-id">
+            <p>{hotel.id}</p>
+          </div>
           <div className="hotel-details">
             <h3>{hotel.name}</h3>
             <p>{hotel.address}</p>
@@ -152,3 +155,4 @@ function HotelList() {
 }
 
 export default HotelList;
+

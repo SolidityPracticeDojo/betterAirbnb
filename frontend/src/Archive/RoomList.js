@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './CSS/RoomList.css'; // Import the CSS file
+import './CSS/RoomList.css';
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
@@ -11,8 +11,14 @@ function RoomList() {
   const [newRoomNumber, setNewRoomNumber] = useState('');
   const [newCapacity, setNewCapacity] = useState('');
   const [newHotel, setNewHotel] = useState('');
+  const [hotels, setHotels] = useState([]);
 
   useEffect(() => {
+    fetchRooms();
+    fetchHotels();
+  }, []);
+
+  const fetchRooms = () => {
     axios.get('http://127.0.0.1:8000/rooms/')
       .then(response => {
         setRooms(response.data);
@@ -20,13 +26,22 @@ function RoomList() {
       .catch(error => {
         console.error('Error fetching rooms:', error);
       });
-  }, []);
+  };
+
+  const fetchHotels = () => {
+    axios.get('http://127.0.0.1:8000/hotels/')
+      .then(response => {
+        setHotels(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching hotels:', error);
+      });
+  };
 
   const handleDelete = (roomId) => {
     axios.delete(`http://127.0.0.1:8000/rooms/${roomId}/`)
       .then(response => {
         console.log('Room deleted successfully.');
-        // Update the rooms state to remove the deleted room
         setRooms(prevRooms => prevRooms.filter(room => room.id !== roomId));
       })
       .catch(error => {
@@ -45,9 +60,7 @@ function RoomList() {
     axios.put(`http://127.0.0.1:8000/rooms/${editRoom.id}/update/`, updatedRoom)
       .then(response => {
         console.log('Room updated successfully.');
-        // Update the rooms state with the updated room details
         setRooms(prevRooms => prevRooms.map(room => (room.id === editRoom.id ? updatedRoom : room)));
-        // Reset the edit state
         setEditRoom(null);
         setEditRoomNumber('');
         setEditCapacity('');
@@ -55,6 +68,11 @@ function RoomList() {
       .catch(error => {
         console.error('Error updating room:', error);
       });
+  };
+
+  const handleCreateButton = () => {
+    fetchHotels(); // Fetch the updated list of hotels before showing the create popup
+    setShowCreatePopup(true);
   };
 
   const handleCreate = () => {
@@ -67,13 +85,10 @@ function RoomList() {
     axios.post('http://127.0.0.1:8000/rooms/', newRoom)
       .then(response => {
         console.log('Room created successfully.');
-        // Add the new room to the existing list of rooms
         setRooms(prevRooms => [...prevRooms, response.data]);
-        // Reset the new room form fields
         setNewRoomNumber('');
         setNewCapacity('');
         setNewHotel('');
-        // Close the create popup
         setShowCreatePopup(false);
       })
       .catch(error => {
@@ -92,14 +107,17 @@ function RoomList() {
     <div className="room-list">
       <div className="room-list-header">
         <h1>Room List</h1>
-        <button className="create-button" onClick={() => setShowCreatePopup(true)}>+</button>
+        <button className="create-button" onClick={handleCreateButton}>+</button>
       </div>
       {rooms.map(room => (
         <div key={room.id} className="room-card">
+          <div className="room-id">
+            <p>{room.id}</p>
+          </div>
           <div className="room-details">
             <h3>{room.room_number}</h3>
             <p>Capacity: {room.capacity}</p>
-            <p>Hotel: {room.hotel} </p>
+            <p>Hotel: {room.hotel}</p>
           </div>
           <div className="buttons-container">
             <button className="edit-button" onClick={() => handleEdit(room)}>Edit</button>
@@ -144,12 +162,17 @@ function RoomList() {
               value={newCapacity}
               onChange={(e) => setNewCapacity(e.target.value)}
             />
-            <input
-              type="text"
-              placeholder="HotelID"
+            <select
               value={newHotel}
               onChange={(e) => setNewHotel(e.target.value)}
-            />
+            >
+              <option value="">Select Hotel</option>
+              {hotels.map(hotel => (
+                <option key={hotel.id} value={hotel.id}>
+                  {hotel.name}
+                </option>
+              ))}
+            </select>
             <div className="buttons-container">
               <button className="create-button" onClick={handleCreate}>Create</button>
               <button className="cancel-button" onClick={closePopup}>Cancel</button>
@@ -162,3 +185,4 @@ function RoomList() {
 }
 
 export default RoomList;
+

@@ -1,0 +1,8 @@
+mac os global environment run: ->
+brew install pkg-config
+
+in your virtualenv or other environment ->
+
+export MYSQLCLIENT_LDFLAGS=$(pkg-config --libs mysqlclient)
+export MYSQLCLIENT_CFLAGS=$(pkg-config --cflags mysqlclient)
+pip install mysqlclient

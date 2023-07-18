@@ -17,6 +17,8 @@ Are these volumes in the backend: really needed ?
 
 Ask chatGPT: I meant automated tests, such as a test that uses Django APi to write to the db, delete from the db, and edit.
 
+Ask chatGPT: to create a githook for files bigger than 40mb or so.
+
 React test suite.
 
 Probably write tests in whatever the equivalent of selenium is in JS.

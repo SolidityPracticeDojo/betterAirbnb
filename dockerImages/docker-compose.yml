@@ -1,0 +1,51 @@
+version: "3"
+services:
+  db:
+    image: betterairbnb_db:latest
+      #ports:
+      #- "3306:3306"
+      # hidden ports here, this is mainly used to simply run the app.
+    networks:
+      mynetwork:
+        ipv4_address: 172.25.0.10
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: myproject
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: myuserpassword
+    volumes:
+      - _db:/var/lib/mysql
+
+  backend:
+    image: betterairbnb_backend:latest
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && exec python manage.py runserver 0.0.0.0:8000"
+      # can also specify all this information in the run part of the Dockerfile. ToDo
+      # command: sh -c "python manage.py migrate"
+      #command: sh -c "echo helloooooo && exec <default_command>"
+    ports:
+      - "8000:8000" # ports are open here, to test db, and if django is live. Next ToDo would be to write test
+    depends_on:
+      - db
+    volumes:
+      - ../backendbase:/app/backendbase
+      - ../betterAirbnb:/app/betterAirbnb
+    networks:
+      - mynetwork
+
+  frontend:
+    image: betterairbnb_frontend:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+
+volumes:
+  _db:
+
+networks:
+  mynetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16
+

@@ -3,7 +3,7 @@
 
 
 # Ignore files inside the dockerImages folder, but keep the folder
-dockerImages/*
+dockerImages/*.tar
 
 # Created by .ignore support plugin (hsz.mobi)
 

@@ -5,8 +5,8 @@ services:
         context: ./db
         dockerfile: Dockerfile
     image: mysql
-    ports:
-      - "3306:3306"
+    #ports:
+      #- "3306:3306"
     networks:
       mynetwork:
         ipv4_address: 172.25.0.10

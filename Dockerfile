@@ -1,9 +1,23 @@
-# Use the official MySQL base image
-FROM mysql
+# Use an official Python runtime as the base image
+FROM python:3.10
 
-# Copy the custom MySQL configuration file to the container
-COPY my.cnf /etc/mysql/conf.d/my.cnf
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Expose the default MySQL port
-EXPOSE 3306
+# Set the working directory in the container
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copy the Django project files to the container
+COPY . .
+
+# Expose the default Django development server port
+EXPOSE 8000
+
+# Run the Django development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 

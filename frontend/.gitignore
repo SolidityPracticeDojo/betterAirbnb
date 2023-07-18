@@ -1,0 +1,9 @@
+# Exclude Node.js dependencies
+node_modules
+
+# Exclude frontend build artifacts
+/build
+
+# Exclude other files or directories you want to ignore
+README.md
+

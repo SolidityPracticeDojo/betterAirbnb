@@ -1,7 +1,12 @@
 version: "3"
 services:
   db:
+    build:
+        context: ./db
+        dockerfile: Dockerfile
     image: mysql
+    ports:
+      - "3306:3306"
     networks:
       mynetwork:
         ipv4_address: 172.25.0.10
@@ -13,9 +18,31 @@ services:
     volumes:
       - _db:/var/lib/mysql
 
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./backendbase:/app/backendbase
+      - ./betterAirbnb:/app/betterAirbnb
+    networks:
+      - mynetwork
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+
 volumes:
   _db:
-
 
 networks:
   mynetwork:
@@ -23,3 +50,4 @@ networks:
       driver: default
       config:
         - subnet: 172.25.0.0/16
+

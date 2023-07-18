@@ -2,6 +2,9 @@
 0_untracked/
 
 
+# Ignore files inside the dockerImages folder, but keep the folder
+dockerImages/*
+
 # Created by .ignore support plugin (hsz.mobi)
 
 ### remix ###

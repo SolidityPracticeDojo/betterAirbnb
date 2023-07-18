@@ -1,0 +1,19 @@
+# Exclude Docker related files
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Exclude Python virtual environment
+/env
+
+# Exclude frontend build artifacts
+/frontend/build
+
+# Exclude database image and related files
+/db
+/dockerImages/betterairbnbdb
+
+# Exclude other files or directories you want to ignore
+notes.txt
+README.md
+

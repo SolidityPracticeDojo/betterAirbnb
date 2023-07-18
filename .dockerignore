@@ -8,10 +8,11 @@ docker-compose.yml
 
 # Exclude frontend build artifacts
 /frontend/build
+!/frontend/build/static/
 
 # Exclude database image and related files
 /db
-/dockerImages/betterairbnbdb
+/dockerImages
 
 # Exclude other files or directories you want to ignore
 notes.txt

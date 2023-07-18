@@ -10,10 +10,11 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the Django project files to the container
 COPY . .
+# COPY /frontend/build/static /app/frontend/build/static
 
 # Expose the default Django development server port
 EXPOSE 8000

@@ -1,0 +1,47 @@
+version: "3"
+services:
+  db:
+    image: betterairbnb_db:latest
+    ports:
+      - "3306:3306"
+    networks:
+      mynetwork:
+        ipv4_address: 172.25.0.10
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: myproject
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: myuserpassword
+    volumes:
+      - _db:/var/lib/mysql
+
+  backend:
+    image: betterairbnb_backend:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - frontend
+      - db
+    volumes:
+      - ./backendbase:/app/backendbase
+      - ./betterAirbnb:/app/betterAirbnb
+    networks:
+      - mynetwork
+
+  frontend:
+    image: betterairbnb_frontend:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+
+volumes:
+  _db:
+
+networks:
+  mynetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16
+

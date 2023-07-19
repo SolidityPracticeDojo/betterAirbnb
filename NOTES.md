@@ -1,7 +1,10 @@
 # ToDo
 ----------
 -[x] Move the relevant files to a backend/ folder.
+
 -[x] Upload files to dockerhub.
+
+- [] runserver, makemigrations and migrate in Dockerfile.
 
 ## - Further improvement:
 

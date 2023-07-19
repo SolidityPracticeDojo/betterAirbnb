@@ -1,18 +1,21 @@
-ToDo
+# ToDo
 ----------
-- Move the relevant files to a backend/ folder.
+-[x] Move the relevant files to a backend/ folder.
+-[x] Upload files to dockerhub.
 
+## - Further improvement:
+
+### DEV:
+
+- Stricter terms for the API data.
+- Adapt the Dockerfile to run migrations and similar
 - Fix the localhost: axios issue.
 
-- Write tests so that I can automate the process.
-
-- Easy one click button from react where I can whipe the database, and another which previews the database tables.
+- Easy one click button from react where I can wipe the database, and another which previews the database tables.
 
 - Admins and subadmins, and customers.
 
-- Adapt the Dockerfile to run migrations and similar
-- upload files to dockerhub.
-- Stricter terms for the API data.
+### SECURITY:
 
 - Are these volumes in the backend: really needed ?
  29     volumes:
@@ -48,12 +51,8 @@ class MyModelTestCase(TestCase):
         self.assertEqual(MyModel.objects.count(), 0)
 
 ```
+
+- Write tests so that I can automate the process.
+
+
 -----------
-mac os global environment run: ->
-brew install pkg-config
-
-in your virtualenv or other environment ->
-
-export MYSQLCLIENT_LDFLAGS=$(pkg-config --libs mysqlclient)
-export MYSQLCLIENT_CFLAGS=$(pkg-config --cflags mysqlclient)
-pip install mysqlclient

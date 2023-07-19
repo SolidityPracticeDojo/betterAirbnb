@@ -21,14 +21,15 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./backend/Dockerfile
     ports:
       - "8000:8000"
     depends_on:
       - db
     volumes:
-      - ./backendbase:/app/backendbase
-      - ./betterAirbnb:/app/betterAirbnb
+      - ./backend/backendbase:/app/backendbase
+      - ./backend/betterAirbnb:/app/betterAirbnb
+      - ./frontend/build/static:/app/frontend/build/static
     networks:
       - mynetwork
 

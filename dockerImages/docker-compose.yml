@@ -1,7 +1,7 @@
 version: "3"
 services:
   db:
-    image: betterairbnb_db:latest
+    image: 0xheart/betterairbnb_db1
       #ports:
       #- "3306:3306"
       # hidden ports here, this is mainly used to simply run the app.
@@ -17,7 +17,7 @@ services:
       - _db:/var/lib/mysql
 
   backend:
-    image: betterairbnb_backend:latest
+    image: 0xheart/betterairbnb_backend1
     command: sh -c "python manage.py makemigrations && python manage.py migrate && exec python manage.py runserver 0.0.0.0:8000"
       # can also specify all this information in the run part of the Dockerfile. ToDo
       # command: sh -c "python manage.py migrate"
@@ -27,13 +27,13 @@ services:
     depends_on:
       - db
     volumes:
-      - ../backendbase:/app/backendbase
-      - ../betterAirbnb:/app/betterAirbnb
+      - ../backend/backendbase:/app/backendbase
+      - ../backend/betterAirbnb:/app/betterAirbnb
     networks:
       - mynetwork
 
   frontend:
-    image: betterairbnb_frontend:latest
+    image: 0xheart/betterairbnb_frontend1
     ports:
       - "3000:3000"
     networks:

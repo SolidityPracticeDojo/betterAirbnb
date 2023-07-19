@@ -7,8 +7,8 @@ docker-compose.yml
 /env
 
 # Exclude frontend build artifacts
-/frontend/build
-!/frontend/build/static/
+#/frontend/build
+#!/frontend/build/static/
 
 # Exclude database image and related files
 /db

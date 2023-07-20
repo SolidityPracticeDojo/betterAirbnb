@@ -1,5 +1,5 @@
-# Use the official MySQL base image
-FROM mysql
+#Use the official MySQL base image
+FROM mysql:8
 
 # Copy the custom MySQL configuration file to the container
 COPY my.cnf /etc/mysql/conf.d/my.cnf

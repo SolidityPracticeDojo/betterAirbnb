@@ -1,5 +1,5 @@
 # Use an official Node.js image as the base
-FROM node:18-alpine
+FROM node:18
 
 # Set the working directory in the container
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json pnpm-lock.yaml ./
 
 # Install dependencies using pnpm
-RUN npm install
+UN npm install
 
 # Copy the frontend source code to the container
 COPY src /app/src

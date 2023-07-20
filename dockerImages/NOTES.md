@@ -1,0 +1,2 @@
+- Write instructions how to archive an image to a .tar file.
+- How to SAVE and LOAD an image.

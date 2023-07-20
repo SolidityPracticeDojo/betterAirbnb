@@ -1,7 +1,3 @@
-# Exclude Docker related files
-.dockerignore
-Dockerfile
-docker-compose.yml
 
 # Exclude Python virtual environment
 /env
@@ -11,7 +7,6 @@ docker-compose.yml
 #!/frontend/build/static/
 
 # Exclude database image and related files
-/db
 /dockerImages
 
 # Exclude other files or directories you want to ignore

@@ -1,0 +1,12 @@
+FROM alpine:3.14
+
+RUN apk add --no-cache mysql mysql-client && \
+    mkdir -p /var/lib/mysql && \
+    chown -R mysql:mysql /var/lib/mysql
+
+COPY my.cnf /etc/mysql/my.cnf
+
+EXPOSE 3306
+
+CMD ["mysqld", "--user=mysql", "--console"]
+

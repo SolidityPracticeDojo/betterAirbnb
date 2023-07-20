@@ -4,7 +4,7 @@
 
 -[x] Upload files to dockerhub.
 
-- [] runserver, makemigrations and migrate in Dockerfile.
+-[x] runserver, makemigrations and migrate in Dockerfile.
 
 ## - Further improvement:
 
@@ -33,7 +33,8 @@
 
 - Probably write tests in whatever the equivalent of selenium is in JS.
 
-```
+- No network on the `dockerImages/docker-compose.yml`. As this is only for testing and live, we don't need a custom network here.
+
 from django.test import TestCase
 from myproject.models import MyModel
 

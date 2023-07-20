@@ -1,5 +1,5 @@
 # betterAirbnb
-![Screenshot](./betterAirbnbImage.png)
+![Screenshot](./image.png)
 
 Yosh, initial push for this project <0.0>
 Will package it neatly with Docker and explain how you can run it, or test it in dev environment outside of docker.
@@ -124,3 +124,15 @@ networks:
       config:
         - subnet: 172.25.0.0/16
 ```
+
+
+## Troubleshoot
+
+You may need to use the following command if you're switching between the `dockerImages/` folder docker containers and the ones in main:
+
+`docker network prune` (this will delete the network drive that has been created and that is custom hardcoded.)
+
+Don't forget docker-compose down.
+
+
+- Localhost: 0.0.0.0 issue. If you try to access the site with `0.0.0.0:8000` it doesn't work. You need to type `localhost:8000`

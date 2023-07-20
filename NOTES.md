@@ -6,6 +6,7 @@
 
 -[x] runserver, makemigrations and migrate in Dockerfile.
 
+- [x] local dockerize
 ## - Further improvement:
 
 ### DEV:

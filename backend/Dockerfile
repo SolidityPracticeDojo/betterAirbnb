@@ -1,9 +1,11 @@
 # Use an official Python runtime as the base image
-FROM python:3.10
+FROM python:3.10-alpine3.17
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
+RUN apk add --no-cache mariadb-dev build-base pkgconfig
 
 # Set the working directory in the container
 WORKDIR /app

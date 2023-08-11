@@ -92,3 +92,28 @@ class BookingUpdateAPIView(generics.UpdateAPIView):
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
+
+
+from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from rest_framework import generics
+from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.decorators import permission_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+class HelloWorld(APIView):
+    authentication_classes = []
+    def get(self, request):
+        return Response({'message': 'Hello, World!'})
+
+class SecretHello(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    #permission_classes = [AllowAny]
+
+    def get(self, request):
+        return Response({'message': 'Hello Authenticated User!'})
+

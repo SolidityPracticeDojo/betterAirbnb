@@ -12,7 +12,11 @@ from .views import (
     BookingListCreateAPIView,
     BookingRetrieveDestroyAPIView,
     BookingUpdateAPIView,
+    HelloWorld,
+    SecretHello
 )
+
+
 
 urlpatterns = [
     path('hotels/', HotelListCreateAPIView.as_view(), name='hotel-list-create'),
@@ -28,4 +32,10 @@ urlpatterns = [
     path('bookings/<int:pk>/', BookingRetrieveDestroyAPIView.as_view(), name='booking-retrieve-destroy'),
     path('bookings/<int:pk>/update/', BookingUpdateAPIView.as_view(), name='booking-update'),
 ]
+
+urlpatterns += [
+    path('hello/', HelloWorld.as_view(), name='hello-world'),
+    path('secret/', SecretHello.as_view(), name='secret'),
+]
+
 

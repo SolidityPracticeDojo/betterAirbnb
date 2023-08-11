@@ -136,3 +136,5 @@ Don't forget docker-compose down.
 
 
 - Localhost: 0.0.0.0 issue. If you try to access the site with `0.0.0.0:8000` it doesn't work. You need to type `localhost:8000`
+
+    + Now with some basicJWT
